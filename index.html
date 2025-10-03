@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="nl" class="scroll-smooth" data-lang="nl" data-focus="all">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fade Khouder – Portfolio</title>
+  <meta name="description" content="Field Service / Systeem- & Netwerkbeheer. Hands-on, NL/EN. Oost-Vlaanderen.">
+  <meta name="theme-color" content="#0ea5e9">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Animations */
+    @keyframes fadeUp { from { opacity:0; transform: translateY(12px) } to { opacity:1; transform: translateY(0) } }
+    @keyframes floatY { 0% { transform: translateY(0) } 50% { transform: translateY(-6px) } 100% { transform: translateY(0) } }
+    @keyframes glow { from { box-shadow: 0 0 0 rgba(56,189,248,0.0) } to { box-shadow: 0 0 40px rgba(56,189,248,0.25) } }
+    @keyframes gradientShift { 0% { background-position: 0% 50% } 50% { background-position: 100% 50% } 100% { background-position: 0% 50% } }
+
+    .reveal { opacity:0; transform: translateY(12px); transition: opacity .6s, transform .6s }
+    .reveal.in-view { opacity:1; transform:none; animation: fadeUp .6s both }
+    .lift { transition: transform .2s ease, box-shadow .2s ease }
+    .lift:hover { transform: translateY(-4px) }
+    .tilt { transform: perspective(800px) rotateX(0) rotateY(0); transition: transform .3s ease }
+    .tilt:hover { transform: perspective(800px) rotateX(2deg) rotateY(-2deg) }
+    .floaty { animation: floatY 6s ease-in-out infinite }
+    .glow { animation: glow 2.5s ease-in-out infinite alternate }
+    .animated-gradient { background: linear-gradient(120deg, rgba(2,6,23,1), rgba(12,74,110,.7), rgba(2,6,23,1)); background-size: 200% 200%; animation: gradientShift 12s ease infinite }
+
+    .chip { display:inline-flex; align-items:center; gap:.35rem; padding:.25rem .6rem; border-radius:.75rem; border:1px solid rgba(100,116,139,.4); font-size:.75rem }
+    .chip::before { content:'•'; opacity:.6 }
+
+    .lang-en { display:none }
+    html[data-lang="en"] .lang-en { display:block }
+    html[data-lang="en"] .lang-nl { display:none }
+
+    /* Typewriter */
+    .typewriter > .text { border-right: .12em solid rgba(255,255,255,.6); white-space: nowrap; overflow: hidden }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .tilt, .floaty, .glow, .animated-gradient { animation: none !important; transform:none !important }
+      .typewriter > .text { border: none }
+    }
+  </style>
+  <script>
+    // Utilities
+    const onReady = (cb)=>document.readyState!=='loading'?cb():document.addEventListener('DOMContentLoaded',cb);
+    // Reveal on scroll
+    onReady(()=>{
+      const io = new IntersectionObserver(entries=>{
+        entries.forEach(e=>e.isIntersecting && e.target.classList.add('in-view'));
+      },{ threshold:.12 });
+      document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+    });
+    // Typewriter (teksten aangepast om overlap te vermijden)
+    function typewriter(el, strings, speed=40, pause=1400) {
+      let i=0, j=0, deleting=false;
+      function tick(){
+        const s=strings[i];
+        el.textContent = deleting ? s.slice(0, j--) : s.slice(0, j++);
+        const atEnd = j===s.length, atStart=j===0;
+        if(!deleting && atEnd) { deleting=true; setTimeout(tick, pause); }
+        else if(deleting && atStart) { deleting=false; i=(i+1)%strings.length; setTimeout(tick, 300); }
+        else setTimeout(tick, deleting? speed/1.5 : speed);
+      }
+      tick();
+    }
+    onReady(()=>{
+      const tw = document.querySelector('.typewriter .text');
+      if(tw) typewriter(tw, [
+        'On-site fixes met een glimlach. ',
+        'Netjes werken: labeling, kabelmanagement, korte runbooks. ',
+        'Field Service • Systeem & Netwerk (NL/EN) '
+      ], 26, 1200);
+    });
+    // Focus filter
+    const setFocus=(f)=>{
+      document.documentElement.dataset.focus=f;
+      document.querySelectorAll('[data-role]').forEach(el=>{
+        const roles=(el.getAttribute('data-role')||'').split(/\s+/);
+        el.classList.toggle('hidden', f!=='all' && !roles.includes(f));
+      });
+    };
+    onReady(()=>{
+      document.getElementById('focusFS')?.addEventListener('click',()=>setFocus('fs'));
+      document.getElementById('focusSN')?.addEventListener('click',()=>setFocus('sn'));
+      document.getElementById('focusAll')?.addEventListener('click',()=>setFocus('all'));
+    });
+    // Language toggle
+    onReady(()=>{
+      document.getElementById('langToggle')?.addEventListener('click',()=>{
+        const html=document.documentElement;
+        html.dataset.lang = html.dataset.lang==='en' ? 'nl' : 'en';
+      });
+    });
+    // Scroll progress
+    onReady(()=>{
+      const bar=document.getElementById('progress');
+      const onScroll=()=>{
+        const h=document.documentElement;
+        const p=(h.scrollTop)/(h.scrollHeight-h.clientHeight)*100;
+        bar.style.transform=`scaleX(${p/100})`;
+      };
+      document.addEventListener('scroll', onScroll, {passive:true});
+      onScroll();
+    });
+  </script>
+</head>
+<body class="bg-slate-950 text-slate-100 selection:bg-sky-500/40">
+<!-- Scroll progress bar -->
+<div id="progress" class="fixed top-0 left-0 right-0 h-1 origin-left bg-sky-500 z-50" style="transform:scaleX(0)"></div>
+
+<header class="sticky top-1 z-40 mx-2 rounded-xl border border-slate-800/60 backdrop-blur bg-slate-950/70">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="h-14 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-3 group">
+  
+        <div class="leading-tight">
+          <p class="font-semibold">Fade Khouder</p>
+          <p class="text-[11px] text-slate-400 lang-nl">Field Service · Systeem &amp; Netwerk</p>
+          <p class="text-[11px] text-slate-400 lang-en">Field Service · Systems &amp; Network</p>
+        </div>
+      </a>
+      <nav class="hidden md:flex items-center gap-6 text-sm text-slate-300">
+        <a href="#jobs" class="hover:text-white">Jobs</a>
+        <a href="#projects" class="hover:text-white lang-nl">Projecten</a>
+        <a href="#projects" class="hover:text-white lang-en">Projects</a>
+        <a href="#toolkit" class="hover:text-white">Toolkit</a>
+        <a href="#contact" class="hover:text-white">Contact</a>
+      </nav>
+      <div class="flex items-center gap-2">
+ 
+  
+    
+        <button id="langToggle" class="text-xs px-3 py-1.5 rounded-xl border border-slate-700 hover:bg-slate-800" aria-label="Toggle language">NL/EN</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <!-- HERO -->
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 animated-gradient opacity-50"></div>
+    <div class="max-w-6xl mx-auto px-4 pt-16 pb-12">
+      <div class="grid md:grid-cols-2 gap-10 items-center">
+        <div class="reveal">
+          <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight typewriter"><span class="text"></span></h1>
+          <p class="mt-4 text-slate-300 text-lg">
+            <span class="lang-nl">Hands-on, klantgericht en leergierig. Ik werk graag on-site, met afwisseling en zichtbare impact.</span>
+            <span class="lang-en">Hands-on, customer-first and eager to learn. I like on-site work with variety and visible impact.</span>
+          </p>
+          <div class="mt-6 flex flex-wrap gap-2 text-xs text-slate-300">
+            <span class="chip">Rijbewijs B</span>
+            <span class="chip">Oost-Vlaanderen</span>
+            <span class="chip">Windows/AD</span>
+            <span class="chip">TCP/IP</span>
+            <span class="chip">Automatisatie</span>
+          </div>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a href="cv.pdf" class="px-4 py-2 rounded-xl border border-slate-700 hover:bg-slate-800 lift">CV (PDF)</a>
+            <a href="#contact" class="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 font-medium lift">Contact</a>
+          </div>
+        </div>
+                  </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JOBS -->
+  <section id="jobs" class="py-12 border-t border-slate-800/60 bg-slate-950">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-2xl md:text-3xl font-bold">Jobs</h2>
+      <div class="mt-6 space-y-6">
+        <article class="rounded-2xl border border-slate-800 p-6 reveal lift" data-role="sn fs">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <h3 class="font-semibold">Database Engineer & ERP-automatisatie — 3Motion</h3>
+            <span class="text-xs text-slate-400">2025</span>
+          </div>
+          <p class="text-slate-300 mt-1">Retool-apps (JavaScript) bovenop bestaande DB; ERP-flows geautomatiseerd met scripts/AI; API/webhooks tussen systemen.</p>
+          <div class="mt-3 flex flex-wrap gap-2 text-xs">
+            <span class="chip">Automatisatie</span>
+            <span class="chip">JavaScript</span>
+          </div>
+        </article>
+        <article class="rounded-2xl border border-slate-800 p-6 reveal lift" data-role="fs">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <h3 class="font-semibold">Allround medewerker — Boels, Dendermonde</h3>
+            <span class="text-xs text-slate-400">2024</span>
+          </div>
+          <p class="text-slate-300 mt-1">Klaar-voor-gebruik controles, onderhoud en klantcontact bij afhalen/retour; focus op veiligheid en nette overdracht.</p>
+          <div class="mt-3 flex flex-wrap gap-2 text-xs">
+            <span class="chip">Field Service</span>
+            <span class="chip">Klantcontact</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS (EXPANDED, 3Motion verwijderd) -->
+  <section id="projects" class="py-12 border-t border-slate-800/60 bg-slate-950">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="flex items-center justify-between gap-3">
+        <h2 class="text-2xl md:text-3xl font-bold">Projecten</h2>
+        <div class="hidden md:flex gap-2">
+          <button onclick="setFocus('all')" class="text-xs px-3 py-1.5 rounded-xl border border-slate-700 hover:bg-slate-800">All</button>
+          <button onclick="setFocus('fs')" class="text-xs px-3 py-1.5 rounded-xl border border-slate-700 hover:bg-slate-800">FS</button>
+          <button onclick="setFocus('sn')" class="text-xs px-3 py-1.5 rounded-xl border border-slate-700 hover:bg-slate-800">S/N</button>
+        </div>
+      </div>
+
+      <div class="mt-6 grid lg:grid-cols-2 gap-6">
+
+        <!-- NAS & Backups -->
+        <article data-role="sn" class="rounded-2xl border border-slate-800 p-6 reveal lift">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <h3 class="font-semibold">Homelab — NAS & Back-ups (3-2-1)</h3>
+            <span class="text-xs chip">Doorlopend</span>
+          </div>
+          <p class="text-slate-300 mt-1">NAS met <b>3-2-1 back-upstrategie</b>. Automatische foto-back-ups naar de NAS, off-site synchronisatie en periodieke restore-tests.</p>
+          <details class="mt-3 text-slate-300">
+            <summary class="cursor-pointer text-sky-400 hover:underline">Details</summary>
+            <div class="mt-2 space-y-2">
+              <p><b>Rol:</b> ontwerp back-upplan, versiebeheer met snapshots, restore-testen en documentatie.</p>
+              <p><b>Highlights:</b> snapshot-schema, versleutelde off-site sync, logboek van test-restores.</p>
+              <p><b>Tech:</b> SMB/FTP, snapshots, rclone/rsync, off-site rotatie.</p>
+            </div>
+          </details>
+          <div class="mt-3 flex flex-wrap gap-2 text-xs">
+            <span class="chip">Back-up</span><span class="chip">NAS</span><span class="chip">Off-site</span>
+          </div>
+        </article>
+
+        <!-- Home Assistant in Docker (verduidelijkt) -->
+        <article data-role="sn fs" class="rounded-2xl border border-slate-800 p-6 reveal lift">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <h3 class="font-semibold">Home Assistant in Docker</h3>
+            <span class="text-xs chip">2024–heden</span>
+          </div>
+          <p class="text-slate-300 mt-1">Home-automatisatie in containers: presence, verlichting, meldingen en kleine quality-of-life flows. Containers met persistente volumes en automatische updates.</p>
+          <details class="mt-3 text-slate-300">
+            <summary class="cursor-pointer text-sky-400 hover:underline">Details</summary>
+            <div class="mt-2 space-y-2">
+              <p><b>Containerisatie:</b> Docker met bind mounts; beheer via scripts; Watchtower voor updates.</p>
+              <p><b>Integraties:</b> WLED/lighting, notificaties, schema’s, energie-/gebruik logging waar zinvol.</p>
+              <p><b>Tech:</b> Docker · Bind mounts · Watchtower · YAML-automations.</p>
+            </div>
+          </details>
+          <div class="mt-3 flex flex-wrap gap-2 text-xs">
+            <span class="chip">Docker</span><span class="chip">Automatisatie</span><span class="chip">Home Assistant</span>
+          </div>
+        </article>
+
+        <!-- Thuisnetwerk & Wi-Fi -->
+        <article data-role="fs" class="rounded-2xl border border-slate-800 p-6 reveal lift">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <h3 class="font-semibold">Thuisnetwerk & Wi-Fi-optimalisatie</h3>
+            <span class="text-xs chip">2024</span>
+          </div>
+          <p class="text-slate-300 mt-1">Bekabelde topologie, router-bridge en statische IP’s. 5 GHz stabiliteit merkbaar verbeterd. <b>Zelf</b> topologie ontworpen, routers geconfigureerd, kabels op maat gemaakt en <b>RJ45-connectoren gecrimpt</b> (getest met kabeltester).</p>
+          <details class="mt-3 text-slate-300">
+            <summary class="cursor-pointer text-sky-400 hover:underline">Details</summary>
+            <div class="mt-2 space-y-2">
+              <p><b>Werkzaamheden:</b> kanaalplan, basis VLAN-segmentatie, keystone-terminaties, labeling en kabelmanagement.</p>
+              <p><b>Deliverables:</b> IP-plan, netwerkdiagram en gebruikershow-to’s.</p>
+              <p><b>Tech:</b> DHCP, DNS, VLAN (basis), 5 GHz kanaalplan.</p>
+            </div>
+          </details>
+          <div class="mt-3 flex flex-wrap gap-2 text-xs">
+            <span class="chip">Field Service</span><span class="chip">Wi‑Fi</span><span class="chip">Bekabeling</span>
+          </div>
+        </article>
+
+        <!-- AD-lab -->
+        <article data-role="sn" class="rounded-2xl border border-slate-800 p-6 reveal lift">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <h3 class="font-semibold">AD-lab (VM’s)</h3>
+            <span class="text-xs chip">Lab</span>
+          </div>
+          <p class="text-slate-300 mt-1">Windows Server met 2 clients: users/GPO’s, DHCP/DNS en remote support-tests. OU-structuur en basisrechten uitgewerkt.</p>
+          <details class="mt-3 text-slate-300">
+            <summary class="cursor-pointer text-sky-400 hover:underline">Details</summary>
+            <div class="mt-2 space-y-2">
+              <p><b>Tech:</b> Hyper-V, AD DS, GPO, DNS, DHCP.</p>
+              <p><b>Deliverables:</b> mini-runbooks (join domain, reset password, map network drive).</p>
+            </div>
+          </details>
+          <div class="mt-3 flex flex-wrap gap-2 text-xs">
+            <span class="chip">AD</span><span class="chip">GPO</span><span class="chip">DHCP/DNS</span>
+          </div>
+        </article>
+
+        <!-- PC-builds & privé helpdesk -->
+        <article data-role="fs sn" class="rounded-2xl border border-slate-800 p-6 reveal lift">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <h3 class="font-semibold">PC-builds & privé helpdesk (vrienden/familie)</h3>
+            <span class="text-xs chip">Doorlopend</span>
+          </div>
+          <p class="text-slate-300 mt-1">Advies, samenstellen en bouwen van pc’s; OS-installatie/imaging, drivers, stress-tests en basis-hardening. Remote en on-site support met heldere uitleg.</p>
+          <details class="mt-3 text-slate-300">
+            <summary class="cursor-pointer text-sky-400 hover:underline">Details</summary>
+            <div class="mt-2 space-y-2">
+              <p><b>Scope:</b> componentkeuze, kabelmanagement, BIOS-config, monitoring.</p>
+              <p><b>Support:</b> updates, back-upplan, gebruikershow-to’s; eenvoudige ticketnotities.</p>
+              <p><b>Tools:</b> imaging tools, remote-support, stress/benchmark.</p>
+            </div>
+          </details>
+          <div class="mt-3 flex flex-wrap gap-2 text-xs">
+            <span class="chip">Helpdesk</span><span class="chip">Hardware</span><span class="chip">Imaging</span>
+          </div>
+        </article>
+
+        <!-- Servers voor apps / media -->
+        <article data-role="sn" class="rounded-2xl border border-slate-800 p-6 reveal lift">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <h3 class="font-semibold">Servers opzetten voor applicaties & media</h3>
+            <span class="text-xs chip">Project-based</span>
+          </div>
+          <p class="text-slate-300 mt-1">Servers opmaken voor specifieke workloads, zoals media- en (video‑editing) workflows: gedeelde opslag, rechten, back-ups en eenvoudige monitoring.</p>
+          <details class="mt-3 text-slate-300">
+            <summary class="cursor-pointer text-sky-400 hover:underline">Details</summary>
+            <div class="mt-2 space-y-2">
+              <p><b>Rol:</b> OS-installatie, shares/permissions, basis-scripting voor back-ups; documentatie.</p>
+              <p><b>Tech:</b> Windows/Linux, SMB/NFS, (Docker waar nodig), planning van scratch/work-disks.</p>
+              <p><b>Resultaat:</b> voorspelbare performance en eenvoudige samenwerking op gedeelde projecten.</p>
+            </div>
+          </details>
+          <div class="mt-3 flex flex-wrap gap-2 text-xs">
+            <span class="chip">Server</span><span class="chip">SMB/NFS</span><span class="chip">Back-ups</span>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- NIEUW: Toolkit sectie -->
+  <section id="toolkit" class="py-12 border-t border-slate-800/60 bg-slate-950">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-2xl md:text-3xl font-bold">Toolkit</h2>
+      <p class="text-slate-300 mt-2">Een selectie van tools en omgevingen waar ik vlot mee werk.</p>
+      <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="rounded-xl border border-slate-800 p-4 lift"><p class="font-semibold">Windows/AD & M365</p><p class="text-slate-300 text-sm mt-1">Users, GPO, DNS/DHCP, imaging, RDP.</p></div>
+        <div class="rounded-xl border border-slate-800 p-4 lift"><p class="font-semibold">Netwerk</p><p class="text-slate-300 text-sm mt-1">TCP/IP, VLAN (basis), kanaalplan, Wi‑Fi survey.</p></div>
+        <div class="rounded-xl border border-slate-800 p-4 lift"><p class="font-semibold">Docker</p><p class="text-slate-300 text-sm mt-1">Bind mounts, Watchtower, YAML.</p></div>
+        <div class="rounded-xl border border-slate-800 p-4 lift"><p class="font-semibold">Automation</p><p class="text-slate-300 text-sm mt-1">Kleine scripts, simpele runbooks, documentatie.</p></div>
+        <div class="rounded-xl border border-slate-800 p-4 lift"><p class="font-semibold">Support</p><p class="text-slate-300 text-sm mt-1">Ticket-notes, duidelijke updates, gebruikerstraining.</p></div>
+        <div class="rounded-xl border border-slate-800 p-4 lift"><p class="font-semibold">Hardware</p><p class="text-slate-300 text-sm mt-1">PC-builds, kabels crimpen, labeling, testen.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="py-12 border-t border-slate-800/60 bg-slate-950">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="rounded-3xl border border-slate-800 overflow-hidden reveal">
+        <div class="grid md:grid-cols-2">
+          <div class="p-8 bg-gradient-to-b from-slate-900 to-slate-950">
+            <h2 class="text-2xl md:text-3xl font-bold">Contact</h2>
+            <p class="text-slate-300 mt-3">
+              <a class="underline hover:no-underline" href="mailto:fadekhouder@gmail.com?subject=Kennismaking%20met%20Fade%20Khouder&body=Hallo%20Fade%2C%20...">FadeKhouder@gmail.com</a><br>
+              <a class="underline hover:no-underline" href="tel:+32486586947">+32 486 58 69 47</a>
+            </p>
+            
+          </div>
+          <div class="p-8 bg-slate-950">
+            <div class="grid gap-3">
+              <div class="rounded-2xl border border-slate-800 p-4 tilt lift">
+                <p class="text-sm text-slate-400">Talen</p>
+                <p class="font-semibold mt-1">Nederlands · Engels</p>
+              </div>
+              <div class="rounded-2xl border border-slate-800 p-4 tilt lift">
+                <p class="text-sm text-slate-400">Locatie</p>
+                <p class="font-semibold mt-1">Dendermonde (Oost-Vlaanderen)</p>
+              </div>
+              <div class="rounded-2xl border border-slate-800 p-4 tilt lift">
+                <p class="text-sm text-slate-400">Zoekrichting</p>
+                <p class="mt-1">Field Service / (junior) Systeem- & Netwerkbeheer — afwisseling, mentale uitdaging, <b>bedrijfswagen</b>.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Mobile sticky CTA -->
+<div class="fixed bottom-3 inset-x-0 px-4 md:hidden">
+  <div class="max-w-6xl mx-auto">
+    <div class="rounded-2xl bg-sky-600 text-white px-4 py-3 shadow-lg flex items-center justify-between floaty">
+      <span class="text-sm">Beschikbaar voor gesprekken</span>
+      <a href="tel:+32486586947" class="font-semibold underline">Bel</a>
+    </div>
+  </div>
+</div>
+
+<footer class="py-8 text-center text-sm text-slate-400 border-t border-slate-800/60">
+  <p>&copy; 2025 • Fade Khouder</p>
+</footer>
+</body>
+</html>
