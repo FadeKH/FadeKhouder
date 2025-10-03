@@ -1,3 +1,3 @@
 # Security Policy
 
-No server-side code here. If you spot a security/privacy issue (e.g., exposed email, tokens, PII), please open a **Security advisory** or email me: fadekhouder@gmail.com?subject=Kennismaking%20met%20Fade%20Khouder&body=Hallo%20Fade%2C%20....
+No server-side code here. If you spot a security/privacy issue (e.g., exposed email, tokens, PII), please open a **Security advisory** or email me: fadekhouder@gmail.com
